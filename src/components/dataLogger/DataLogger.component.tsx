@@ -29,7 +29,7 @@ export class DataLogger extends Component<DataLoggerProps, DataLoggerState> {
     this.state = {
       dataService: new DataService(),
       unmount$: new Subject<boolean>(),
-      temperature: null,
+      temperature: 10,
       humidity: null,
       airPressure: null,
     };
@@ -44,7 +44,7 @@ export class DataLogger extends Component<DataLoggerProps, DataLoggerState> {
     this.state.unmount$.unsubscribe();
   }
 
-  private initDataStreams(): void {
+  public initDataStreams(): void {
     const temperature$ = this.getDataStream(10, 40);
     const humidity$ = this.getDataStream(30, 80);
     const airPressure$ = this.getDataStream(600, 800);
@@ -60,7 +60,7 @@ export class DataLogger extends Component<DataLoggerProps, DataLoggerState> {
       });
   }
 
-  private getDataStream(minValue: number, maxValue: number): Observable<number | null> {
+  public getDataStream(minValue: number, maxValue: number): Observable<number | null> {
     const maxTimeout: number = 1000;
     const defaultValue: null = null;
 
@@ -73,7 +73,7 @@ export class DataLogger extends Component<DataLoggerProps, DataLoggerState> {
       );
   }
 
-  private setDataLoggerValues(values: DataLoggerValues): void {
+  public setDataLoggerValues(values: DataLoggerValues): void {
     this.setState({ ...this.state, ...values });
   }
 
