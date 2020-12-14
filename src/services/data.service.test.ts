@@ -1,4 +1,7 @@
 import { DataService } from './data.service';
+import { Observable } from 'rxjs';
+import { first, timeInterval } from 'rxjs/operators';
+import { TimeInterval } from 'rxjs/src/internal/operators/timeInterval';
 
 describe('Data Service', () => {
   const dataService: DataService = new DataService();
@@ -56,6 +59,41 @@ describe('Data Service', () => {
       expect(countOccurrences(numbers, 1)).toBeLessThan(halfLengthOfNumbers);
       expect(countOccurrences(numbers, 2)).toBeLessThan(halfLengthOfNumbers);
       expect(countOccurrences(numbers, 3)).toBeLessThan(halfLengthOfNumbers);
+    });
+  });
+
+  describe('getDataStream', () => {
+    it('should return Observable', () => {
+      const source$ = dataService.getDataStream(10, 100);
+
+      expect(source$ instanceof Observable).toBeTruthy();
+    });
+
+    it('observable should emit numeric value', (done) => {
+      const source$ = dataService.getDataStream(10, 100);
+
+      source$
+        .pipe(
+          first(),
+        )
+        .subscribe((value: number) => {
+          expect(Number.isInteger(value)).toBeTruthy();
+          done();
+        });
+    });
+
+    it('delay should be in the given range', (done) => {
+      const source$: Observable<number> = dataService.getDataStream(10, 100, 100, 200);
+
+      source$
+        .pipe(
+          timeInterval(),
+        )
+        .subscribe((timer: TimeInterval<number>) => {
+          expect(timer.interval).toBeGreaterThanOrEqual(100);
+          expect(timer.interval).toBeLessThanOrEqual(200);
+          done();
+        });
     });
   });
 });
