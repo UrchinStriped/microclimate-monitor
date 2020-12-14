@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import './DataLoggerField.styles.scss'
 
-interface DataLoggerFieldProps {
+export interface DataLoggerFieldProps {
   label: string;
   value: number | null;
 }

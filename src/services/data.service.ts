@@ -1,5 +1,5 @@
 import { interval, Observable, of } from 'rxjs';
-import { concatMap, delay } from 'rxjs/operators';
+import { concatMap, delay, take } from 'rxjs/operators';
 
 export class DataService {
   public getDataStream(minValue: number, maxValue: number, minDelay: number = 100, maxDelay: number = 2000): Observable<number> {

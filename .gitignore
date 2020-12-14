@@ -87,3 +87,9 @@ _Pvt_Extensions
 
 # Linters
 .eslintcache
+
+# build folder
+build/
+
+# test coverage
+coverage/
